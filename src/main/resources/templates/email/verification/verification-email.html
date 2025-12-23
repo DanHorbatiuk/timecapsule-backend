@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <style>
+        /* Загальні стилі для email */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica', Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333333;
+        }
+
+        .container {
+            width: 100%;
+            padding: 20px 0;
+            background-color: #f4f6f8;
+            display: flex;
+            justify-content: center;
+        }
+
+        .email-content {
+            background-color: #ffffff;
+            max-width: 600px;
+            width: 90%;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+            color: #ffffff;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .body {
+            padding: 30px 20px;
+            line-height: 1.6;
+        }
+
+        .body p {
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        .button-container {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #06b6d4;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #0284c7;
+        }
+
+        .footer {
+            background-color: #f4f6f8;
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #888888;
+        }
+
+        @media only screen and (max-width: 480px) {
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .body p {
+                font-size: 14px;
+            }
+
+            .button {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="email-content">
+        <div class="header">
+            <h1>Email Verification</h1>
+        </div>
+        <div class="body">
+            <p>Hello,</p>
+            <p>Thank you for registering with us. Please click the button below to verify your email address:</p>
+
+            <div class="button-container">
+                <a th:href="${verificationUrl}" class="button" target="_blank">Verify Email Address</a>
+            </div>
+
+            <p>If the button doesn't work, copy and paste this link into your browser:</p>
+            <p><small th:text="${verificationUrl}"></small></p>
+
+            <p>If you did not create an account, no further action is required.</p>
+        </div>
+        <div class="footer">
+            <p>© 2025 TimeCapsule. All rights reserved.</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

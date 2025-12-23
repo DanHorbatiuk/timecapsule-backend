@@ -1,0 +1,14 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+logging:
+  level:
+    root: WARN
+    org.springframework.web: ERROR
+    dev.horbatiuk.timecapsule: INFO
+  file:
+    name: logs/timecapsule.log
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n"
