@@ -1,4 +1,5 @@
-<a><img width="1660" height="412" alt="timecapsule-up" src="https://github.com/user-attachments/assets/433a0b7b-9788-479c-90e6-5b48ec000e70" /></a>
+<img width="1660" height="412" alt="timecapsule-up" src="https://github.com/user-attachments/assets/6adfe1ee-6eaf-49f8-bcd8-ad066d20e092" />
+
 
 # TimeCapsule Backend<br> [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/DanHorbatiuk/timecapsule/blob/main/LICENSE) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=timecapsule&metric=coverage)](https://sonarcloud.io/dashboard?id=timecapsule-backend) [![GitHub release](https://img.shields.io/static/v1?label=Pre-release&message=v.1.0.0&color=yellowgreen)](https://github.com/DanHorbatiuk/timecapsule/releases)
 
@@ -194,9 +195,9 @@ Nessesary variables:
 ## 5. AWS architecture design
 
 <div align="center">
-  <img width="771" height="381" alt="timecapsule_arch-Create capsule drawio" src="https://github.com/user-attachments/assets/e3641c2a-7dc4-4cd4-b6ab-420fd6224d87" />
+  <img width="982" height="362" alt="timecapsule_arch-Open capsule drawio" src="https://github.com/user-attachments/assets/63db6fe7-c719-4e60-8ca1-0024d50ecd69" />
   <br><br>
-  <img width="982" height="362" alt="timecapsule_arch-Open capsule drawio" src="https://github.com/user-attachments/assets/85653970-3c6f-4fc5-88cb-a6ca19b5eada" />
+  <img width="771" height="381" alt="timecapsule_arch-Create capsule drawio" src="https://github.com/user-attachments/assets/6218a368-6176-4853-a906-acdccb29cec8" />
 </div>
 
 <br>
