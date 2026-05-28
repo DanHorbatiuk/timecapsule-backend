@@ -4,7 +4,6 @@ import dev.horbatiuk.timecapsule.exception.ErrorResponse;
 import dev.horbatiuk.timecapsule.exception.NotFoundException;
 import dev.horbatiuk.timecapsule.exception.aws.InternalAwsException;
 import dev.horbatiuk.timecapsule.exception.controller.AppException;
-import dev.horbatiuk.timecapsule.persistence.CapsuleRepository;
 import dev.horbatiuk.timecapsule.persistence.dto.capsule.CapsuleCreateDTO;
 import dev.horbatiuk.timecapsule.persistence.dto.capsule.CapsuleResponseDTO;
 import dev.horbatiuk.timecapsule.persistence.dto.capsule.EditCapsuleDTO;
@@ -64,7 +63,6 @@ public class UserCapsuleController {
     @Value("${app.premium-user-max-capsules}")
     private int premiumUserMaxCapsules;
 
-    private final CapsuleRepository capsuleRepository;
     private final S3Service s3Service;
     private final CapsuleService capsuleService;
     private final EventBridgeScheduledService eventBridgeScheduledService;
@@ -138,7 +136,7 @@ public class UserCapsuleController {
         int maxCapsules = userDetails.isPremiumUser()
                 ? premiumUserMaxCapsules
                 : userMaxCapsules;
-        long capsuleCount = capsuleRepository.countByAppUserEmail(userDetails.getEmail());
+        long capsuleCount = capsuleService.countCapsulesByEmail(userDetails.getEmail());
         if (capsuleCount >= maxCapsules) {
             throw new AppException(
                     "Limit reached, max: " + maxCapsules + " capsules",

@@ -79,14 +79,22 @@ public class CapsuleService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public long countCapsulesByEmail(String email) {
+        return capsuleRepository.countByAppUserEmail(email);
+    }
+
     // ---------------- ADMIN METHODS ----------------
 
-    @Transactional
-    public List<CapsuleResponseDTO> findCapsulesByUserEmail(String email) {
-        User user = findUserByEmail(email);
-        return capsuleRepository.findAllByAppUser(user).stream()
-                .map(capsuleMapper::toResponseDTO)
-                .collect(Collectors.toList());
+    @Transactional(readOnly = true)
+    public long countAllCapsules() {
+        return capsuleRepository.count();
+    }
+
+    @Transactional(readOnly = true)
+    public long countCapsulesByStatus(CapsuleStatus status) {
+        return capsuleRepository.findAllWithFilters(null, status, null, null, null, null,
+                org.springframework.data.domain.Pageable.unpaged()).getTotalElements();
     }
 
     @Transactional(readOnly = true)
@@ -149,6 +157,13 @@ public class CapsuleService {
         if (StringUtils.hasText(dto.getDescription())) capsule.setDescription(dto.getDescription());
         if (dto.getOpenAt() != null) capsule.setOpenAt(dto.getOpenAt());
         logger.info("Admin edited capsule {}", capsuleId);
+    }
+
+    @Transactional
+    public void deleteCapsuleById(UUID capsuleId) throws NotFoundException {
+        Capsule capsule = findCapsuleEntityById(capsuleId);
+        capsuleRepository.delete(capsule);
+        logger.info("Deleted capsule {}", capsuleId);
     }
 
     @Transactional

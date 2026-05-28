@@ -4,13 +4,13 @@ services:
     environment:
       POSTGRES_DB: timecapsule
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: freeMaker13#1cv
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-timecapsule_dev}
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U admin -d timecapsule" ]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d timecapsule"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -20,13 +20,28 @@ services:
     image: timecapsule-app
     ports:
       - "8080:8080"
-    env_file:
-      - .env
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      DB_URL: jdbc:postgresql://timecapsule-database-1.cuhsmymyg00w.us-east-1.rds.amazonaws.com:5432/timecapsule
+      DB_URL: jdbc:postgresql://db:5432/timecapsule
       DB_USER: postgres
-      DB_PASSWORD: freeMaker13#1cv
+      DB_PASSWORD: ${DB_PASSWORD:-timecapsule_dev}
+      JWT_SECRET: ${JWT_SECRET:-changeme_at_least_32_chars_long_secret}
+      MAIL_HOST: ${MAIL_HOST:-smtp.gmail.com}
+      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_ADDRESS: ${MAIL_ADDRESS:-}
+      MAIL_APP_PASSWORD: ${MAIL_APP_PASSWORD:-}
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY:-dummy}
+      S3_SECRET_KEY: ${S3_SECRET_KEY:-dummy}
+      AWS_SERVICES_REGION: ${AWS_SERVICES_REGION:-us-east-1}
+      LAMBDA_ARN: ${LAMBDA_ARN:-arn:aws:lambda:us-east-1:000000000000:function:dummy}
+      SCHEDULER_ROLE_ARN: ${SCHEDULER_ROLE_ARN:-arn:aws:iam::000000000000:role/dummy}
+      S3_BUCKET: ${S3_BUCKET:-timecapsule-bucket}
+      FILE_FOLDER_NAME: ${FILE_FOLDER_NAME:-files}
+      DATA_FOLDER_NAME: ${DATA_FOLDER_NAME:-data}
     depends_on:
       db:
         condition: service_healthy
+    restart: on-failure
+
+volumes:
+  pgdata:

@@ -2,11 +2,9 @@ package dev.horbatiuk.timecapsule.controllers.admin;
 
 import dev.horbatiuk.timecapsule.exception.NotFoundException;
 import dev.horbatiuk.timecapsule.exception.controller.AppException;
-import dev.horbatiuk.timecapsule.persistence.CapsuleRepository;
 import dev.horbatiuk.timecapsule.persistence.dto.attachment.AttachmentResponseDTO;
 import dev.horbatiuk.timecapsule.persistence.dto.capsule.CapsuleResponseDTO;
 import dev.horbatiuk.timecapsule.persistence.dto.capsule.EditCapsuleDTO;
-import dev.horbatiuk.timecapsule.persistence.entities.Capsule;
 import dev.horbatiuk.timecapsule.persistence.entities.enums.CapsuleStatus;
 import dev.horbatiuk.timecapsule.service.AttachmentService;
 import dev.horbatiuk.timecapsule.service.CapsuleService;
@@ -48,7 +46,6 @@ public class AdminCapsuleController {
     private static final Logger logger = LoggerFactory.getLogger(AdminCapsuleController.class);
 
     private final CapsuleService capsuleService;
-    private final CapsuleRepository capsuleRepository;
     private final S3Service s3Service;
     private final EventBridgeScheduledService eventBridgeScheduledService;
     private final AttachmentService attachmentService;
@@ -148,7 +145,7 @@ public class AdminCapsuleController {
     @Operation(summary = "Get capsules by user email")
     public ResponseEntity<List<CapsuleResponseDTO>> getByEmail(@RequestParam String email) {
         logger.info("Admin requested capsules for email {}", email);
-        List<CapsuleResponseDTO> capsules = capsuleService.findCapsulesByUserEmail(email);
+        List<CapsuleResponseDTO> capsules = capsuleService.findCapsulesByEmail(email);
         return ResponseEntity.ok(capsules);
     }
 
@@ -249,8 +246,7 @@ public class AdminCapsuleController {
                 eventBridgeScheduledService.deleteSchedule(capsuleId);
             } catch (NotFoundException ignored) {}
             attachmentService.deleteAllAttachmentsFromCapsule(capsuleId);
-            Capsule c = capsuleService.findCapsuleEntityById(capsuleId);
-            capsuleRepository.delete(c);
+            capsuleService.deleteCapsuleById(capsuleId);
             return ResponseEntity.noContent().build();
         } catch (NotFoundException e) {
             throw new AppException("Capsule not found", HttpStatus.NOT_FOUND);

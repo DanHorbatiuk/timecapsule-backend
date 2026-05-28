@@ -147,7 +147,6 @@ public class AccountVerificationController {
             userVerificationService.verifyToken(UUID.fromString(token));
             response.put("success", true);
             response.put("message", "User verified successfully");
-            response.put("redirectUrl", "http://localhost:5173/timecapsule/me");
             return ResponseEntity.ok(response);
         } catch (AppException e) {
             response.put("success", false);
