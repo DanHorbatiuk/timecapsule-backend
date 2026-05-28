@@ -34,6 +34,9 @@ public class UserVerificationService {
     @Value("${app.base-url}")
     private String baseUrl;
 
+    @Value("${app.frontend-url}")
+    private String frontendUrl;
+
     @Async
     public void sendVerificationEmail(UUID userId, String email, boolean verified) throws NotFoundException, MessagingException {
         if (verified) {
@@ -47,8 +50,7 @@ public class UserVerificationService {
                     logger.warn("Verification token not found for user ID: {}", userId);
                     return new NotFoundException("Verification token not found for user: " + userId);
                 });
-        String frontendBaseUrl = "http://localhost:5173";
-        String verificationLink = UriComponentsBuilder.fromHttpUrl(frontendBaseUrl)
+        String verificationLink = UriComponentsBuilder.fromHttpUrl(frontendUrl)
                 .path("/verify")
                 .queryParam("token", verificationToken.getToken())
                 .toUriString();
